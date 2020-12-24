@@ -6,6 +6,7 @@ import net.runelite.api.Client;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.ui.overlay.OverlayManager;
 
 import javax.inject.Inject;
 
@@ -24,6 +25,12 @@ public class WillowerPlugin extends Plugin {
     @Inject
     private WillowerConfig config;
 
+    @Inject
+    private OverlayManager overlayManager;
+
+    @Inject
+    private WillowerOverlay willowerOverlay;
+
     @Provides
     public WillowerConfig provideConfig(final ConfigManager configManager)
     {
@@ -34,6 +41,7 @@ public class WillowerPlugin extends Plugin {
     protected void startUp() throws Exception
     {
         log.debug("Willower started up");
+        overlayManager.add(willowerOverlay);
     }
 
     @Override
