@@ -9,19 +9,12 @@ import net.runelite.client.ui.overlay.tooltip.TooltipManager;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.awt.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Singleton
 public class WillowerOverlay extends Overlay {
     private static final Font FONT = FontManager.getRunescapeFont().deriveFont(Font.BOLD, 16);
-    private static final Color RED = new Color(221, 44, 0);
-    private static final Color GREEN = new Color(0, 200, 83);
-    private static final Color ORANGE = new Color(255, 109, 0);
-    private static final Color YELLOW = new Color(255, 214, 0);
-    private static final Color CYAN = new Color(0, 184, 212);
-    private static final Color BLUE = new Color(41, 98, 255);
-    private static final Color DEEP_PURPLE = new Color(98, 0, 234);
-    private static final Color PURPLE = new Color(170, 0, 255);
-    private static final Color GRAY = new Color(158, 158, 158);
 
     private static final int MAX_DISTANCE = 2400;
 
@@ -71,14 +64,25 @@ public class WillowerOverlay extends Overlay {
         }
     }
 
+    private static boolean isWillow(int id) {
+        Set<Integer> willows = new HashSet<>();
+
+        willows.add(10819);
+        willows.add(10829);
+        willows.add(10831);
+        willows.add(10833);
+
+        return willows.contains(id);
+    }
+
     private void renderWillow(Graphics2D graphics, Tile tile, Player player) {
         GameObject[] gameObjects = tile.getGameObjects();
         if (gameObjects != null) {
             for (GameObject gameObject : gameObjects) {
                 if (gameObject != null) {
-                    if (gameObject.getId() == ObjectID.WILLOW_10833) {
+                    if (isWillow(gameObject.getId())) {
                         if (player.getLocalLocation().distanceTo(gameObject.getLocalLocation()) <= MAX_DISTANCE) {
-                            OverlayUtil.renderTileOverlay(graphics, gameObject, "ID: " + gameObject.getId(), BLUE);
+                            OverlayUtil.renderTileOverlay(graphics, gameObject, "ID: " + gameObject.getId(), Color.BLUE);
                         }
 
                         // Draw a polygon around the convex hull

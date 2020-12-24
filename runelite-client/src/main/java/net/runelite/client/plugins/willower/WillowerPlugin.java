@@ -48,5 +48,6 @@ public class WillowerPlugin extends Plugin {
     protected void shutDown() throws Exception
     {
         log.debug("Willower shut down");
+        overlayManager.remove(willowerOverlay);
     }
 }
